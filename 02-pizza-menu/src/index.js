@@ -73,35 +73,43 @@ function Header() {
 }
 
 function Menu() {
+  const pizzas = pizzaData;
+
   return (
     <main className="menu">
       <h2>MENU</h2>
-      <Pizza
-        name="Focaccia"
-        ingredients="Bread with italian olive oil and rosemary"
-        photoName="pizzas/focaccia.jpg"
-        price={6000}
-      />
-      <Pizza
-        name="Pizza Prosciutto"
-        ingredients="Tomato, mozarella, ham, aragula, and burrata cheese"
-        photoName="pizzas/prosciutto.jpg"
-        price={10000}
-      />
+      {pizzas ? (
+        <ul className="pizzas">
+          {pizzas.map((pizza) => (
+            <Pizza
+              key={pizza.name + "_" + pizza.price}
+              name={pizza.name}
+              ingredients={pizza.ingredients}
+              photoName={pizza.photoName}
+              price={pizza.price}
+              soldOut={pizza.soldOut}
+            />
+          ))}
+        </ul>
+      ) : (
+        <p>We're still workign on our menu. Please come back later :)</p>
+      )}
     </main>
   );
 }
 
 function Pizza(props) {
+  if (props.soldOut) return null;
+
   return (
-    <div className="pizza">
+    <li className="pizza">
       <img src={props.photoName} alt={props.name} />
       <div>
         <h3>{props.name}</h3>
         <p>{props.ingredients}</p>
         <span>₩{props.price}</span>
       </div>
-    </div>
+    </li>
   );
 }
 
@@ -110,11 +118,20 @@ function Footer() {
   const openHour = 12;
   const closeHour = 22;
   const isOpen = currentHour >= openHour && currentHour <= closeHour;
-  console.log(isOpen);
 
   return (
     <footer className="footer">
-      We're currently OPEN at {new Date().toLocaleTimeString()}
+      {isOpen ? (
+        <div className="order">
+          <p>We're currently OPEN until {closeHour}:00.</p>
+          <button className="btn">Order</button>
+        </div>
+      ) : (
+        <p>
+          Sorry we're CLOSED now. We're open from {openHour}:00 to {closeHour}
+          :00.
+        </p>
+      )}
     </footer>
   );
 }
