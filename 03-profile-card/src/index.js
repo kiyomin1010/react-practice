@@ -3,6 +3,59 @@ import { createRoot } from "react-dom/client";
 
 import "./styles.css";
 
+const skills = [
+  {
+    skill: "HTML/CSS",
+    level: "intermediate",
+    color: "yellow",
+  },
+  {
+    skill: "JavaScript",
+    level: "intermediate",
+    color: "orange",
+  },
+  {
+    skill: "React",
+    level: "intermediate",
+    color: "blue",
+  },
+  {
+    skill: "Vue",
+    level: "beginner",
+    color: "green",
+  },
+  {
+    skill: "Express",
+    level: "intermediate",
+    color: "grey",
+  },
+  {
+    skill: "C#",
+    level: "intermediate",
+    color: "lime",
+  },
+  {
+    skill: "Unity",
+    level: "intermediate",
+    color: "white",
+  },
+  {
+    skill: "PHP",
+    level: "intermediate",
+    color: "purple",
+  },
+  {
+    skill: "Laravel",
+    level: "intermediate",
+    color: "fuchsia",
+  },
+  {
+    skill: "Python",
+    level: "beginner",
+    color: "navy",
+  },
+];
+
 function App() {
   return (
     <div className="card">
@@ -31,25 +84,22 @@ function Intro() {
 function SkillList() {
   return (
     <div className="skill-list">
-      <Skill skill="HTML/CSS" emoji="👍" color="yellow" />
-      <Skill skill="JavaScript" emoji="👍" color="orange" />
-      <Skill skill="React" emoji="👍" color="blue" />
-      <Skill skill="Vue" emoji="👌" color="green" />
-      <Skill skill="Express" emoji="👍" color="grey" />
-      <Skill skill="C#" emoji="👍" color="lime" />
-      <Skill skill="Unity" emoji="👍" color="white" />
-      <Skill skill="PHP" emoji="👍" color="purple" />
-      <Skill skill="Laravel" emoji="👍" color="fuchsia" />
-      <Skill skill="Python" emoji="👌" color="navy" />
+      {skills.map((skill) => (
+        <Skill skill={skill.skill} color={skill.color} level={skill.level} />
+      ))}
     </div>
   );
 }
 
-function Skill(props) {
+function Skill({ skill, color, level }) {
   return (
-    <div className="skill" style={{ backgroundColor: props.color }}>
-      <span>{props.skill}</span>
-      <span>{props.emoji}</span>
+    <div className="skill" style={{ backgroundColor: color }}>
+      <span>{skill}</span>
+      <span>
+        {level === "beginner" && "👶"}
+        {level === "intermediate" && "👍"}
+        {level === "advanced" && "💪"}
+      </span>
     </div>
   );
 }
