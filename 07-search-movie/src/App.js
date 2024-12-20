@@ -106,13 +106,13 @@ function NumResults() {
 function Main() {
   return (
     <main className="main">
-      <MovieListBox />
+      <MovieBox />
       <WatchedMovieBox />
     </main>
   );
 }
 
-function MovieListBox() {
+function MovieBox() {
   const [isOpen1, setIsOpen1] = useState(true);
 
   return (
@@ -216,30 +216,30 @@ function WatchedMovieSummary({ watchedMovies }) {
 function WatchedMovieList({ watchedMovies }) {
   return (
     <ul className="list">
-      {watchedMovies?.map((watched) => (
-        <WatchedMovie watched={watched} />
+      {watchedMovies?.map((movie) => (
+        <WatchedMovie movie={movie} />
       ))}
     </ul>
   );
 }
 
-function WatchedMovie({ watched }) {
+function WatchedMovie({ movie }) {
   return (
-    <li key={watched.imdbID}>
-      <img src={watched.Poster} alt={`${watched.Title} poster`} />
-      <h3>{watched.Title}</h3>
+    <li key={movie.imdbID}>
+      <img src={movie.Poster} alt={`${movie.Title} poster`} />
+      <h3>{movie.Title}</h3>
       <div>
         <p>
           <span>⭐️</span>
-          <span>{watched.imdbRating}/10</span>
+          <span>{movie.imdbRating}/10</span>
         </p>
         <p>
           <span>🌟</span>
-          <span>{watched.userRating}/10</span>
+          <span>{movie.userRating}/10</span>
         </p>
         <p>
           <span>⏳</span>
-          <span>{watched.runtime} min</span>
+          <span>{movie.runtime} min</span>
         </p>
       </div>
     </li>
