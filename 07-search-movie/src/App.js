@@ -56,18 +56,26 @@ export default function App() {
 
   return (
     <>
-      <NavBar movies={movies} />
-      <Main movies={movies} />
+      <NavBar>
+        <Search />
+        <NumResults movies={movies} />
+      </NavBar>
+
+      <Main>
+        <MovieBox>
+          <MovieList movies={movies} />
+        </MovieBox>
+        <WatchedMovieBox />
+      </Main>
     </>
   );
 }
 
-function NavBar({ movies }) {
+function NavBar({ children }) {
   return (
     <nav className="nav-bar">
       <Logo />
-      <Search />
-      <NumResults movies={movies} />
+      {children}
     </nav>
   );
 }
@@ -105,16 +113,11 @@ function NumResults({ movies }) {
   );
 }
 
-function Main({ movies }) {
-  return (
-    <main className="main">
-      <MovieBox movies={movies} />
-      <WatchedMovieBox />
-    </main>
-  );
+function Main({ children }) {
+  return <main className="main">{children}</main>;
 }
 
-function MovieBox({ movies }) {
+function MovieBox({ children }) {
   const [isOpen1, setIsOpen1] = useState(true);
 
   return (
@@ -127,7 +130,7 @@ function MovieBox({ movies }) {
       >
         {isOpen1 ? "-" : "+"}
       </button>
-      {isOpen1 && <MovieList movies={movies} />}
+      {isOpen1 && children}
     </div>
   );
 }
