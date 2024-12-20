@@ -52,20 +52,22 @@ function getAverage(array) {
 }
 
 export default function App() {
+  const [movies, setMovies] = useState(tempMovieData);
+
   return (
     <>
-      <NavBar />
-      <Main />
+      <NavBar movies={movies} />
+      <Main movies={movies} />
     </>
   );
 }
 
-function NavBar() {
+function NavBar({ movies }) {
   return (
     <nav className="nav-bar">
       <Logo />
       <Search />
-      <NumResults />
+      <NumResults movies={movies} />
     </nav>
   );
 }
@@ -95,24 +97,24 @@ function Search() {
   );
 }
 
-function NumResults() {
+function NumResults({ movies }) {
   return (
     <p className="num-results">
-      Found <strong>X</strong> results
+      Found <strong>{movies.length}</strong> results
     </p>
   );
 }
 
-function Main() {
+function Main({ movies }) {
   return (
     <main className="main">
-      <MovieBox />
+      <MovieBox movies={movies} />
       <WatchedMovieBox />
     </main>
   );
 }
 
-function MovieBox() {
+function MovieBox({ movies }) {
   const [isOpen1, setIsOpen1] = useState(true);
 
   return (
@@ -125,18 +127,16 @@ function MovieBox() {
       >
         {isOpen1 ? "-" : "+"}
       </button>
-      {isOpen1 && <MovieList />}
+      {isOpen1 && <MovieList movies={movies} />}
     </div>
   );
 }
 
-function MovieList() {
-  const [movies, setMovies] = useState(tempMovieData);
-
+function MovieList({ movies }) {
   return (
     <ul className="list">
       {movies?.map((movie) => (
-        <Movie movie={movie} />
+        <Movie movie={movie} key={movie.imdbID} />
       ))}
     </ul>
   );
@@ -144,7 +144,7 @@ function MovieList() {
 
 function Movie({ movie }) {
   return (
-    <li key={movie.imdbID}>
+    <li>
       <img src={movie.Poster} alt={`${movie.Title} poster`} />
       <h3>{movie.Title}</h3>
       <div>
@@ -217,7 +217,7 @@ function WatchedMovieList({ watchedMovies }) {
   return (
     <ul className="list">
       {watchedMovies?.map((movie) => (
-        <WatchedMovie movie={movie} />
+        <WatchedMovie movie={movie} key={movie.imdbID} />
       ))}
     </ul>
   );
@@ -225,7 +225,7 @@ function WatchedMovieList({ watchedMovies }) {
 
 function WatchedMovie({ movie }) {
   return (
-    <li key={movie.imdbID}>
+    <li>
       <img src={movie.Poster} alt={`${movie.Title} poster`} />
       <h3>{movie.Title}</h3>
       <div>
