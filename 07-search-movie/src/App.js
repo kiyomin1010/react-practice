@@ -135,24 +135,6 @@ function Box({ children }) {
   );
 }
 
-// function MovieBox({ children }) {
-//   const [isOpen1, setIsOpen1] = useState(true);
-
-//   return (
-//     <div className="box">
-//       <button
-//         className="btn-toggle"
-//         onClick={() => {
-//           setIsOpen1((isOpen1) => !isOpen1);
-//         }}
-//       >
-//         {isOpen1 ? "-" : "+"}
-//       </button>
-//       {isOpen1 && children}
-//     </div>
-//   );
-// }
-
 function MovieList({ movies }) {
   return (
     <ul className="list">
@@ -177,26 +159,6 @@ function Movie({ movie }) {
     </li>
   );
 }
-
-// function WatchedMovieBox() {
-//   const [watchedMovies, setWatchedMovies] = useState(tempWatchedData);
-//   const [isOpen2, setIsOpen2] = useState(true);
-
-//   return (
-//     <div className="box">
-//       <button
-//         className="btn-toggle"
-//         onClick={() => {
-//           setIsOpen2((isOpen2) => !isOpen2);
-//         }}
-//       >
-//         {isOpen2 ? "-" : "+"}
-//       </button>
-//       <WatchedMovieSummary watchedMovies={watchedMovies} />
-//       {isOpen2 && <WatchedMovieList watchedMovies={watchedMovies} />}
-//     </div>
-//   );
-// }
 
 function WatchedMovieSummary({ watchedMovies }) {
   const avgImdbRating = getAverage(
