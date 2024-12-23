@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const tempMovieData = [
   {
@@ -54,6 +54,20 @@ function getAverage(array) {
 export default function App() {
   const [movies, setMovies] = useState(tempMovieData);
   const [watchedMovies, setWatchedMovies] = useState(tempWatchedData);
+
+  const query = "parasite";
+
+  useEffect(() => {
+    async function fetchMovies() {
+      const res = await fetch(
+        `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=${query}`
+      );
+      const data = await res.json();
+      setMovies(data.Search);
+    }
+
+    fetchMovies();
+  }, []);
 
   return (
     <>
