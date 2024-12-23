@@ -54,16 +54,37 @@ function getAverage(array) {
 export default function App() {
   const [movies, setMovies] = useState(tempMovieData);
   const [watchedMovies, setWatchedMovies] = useState(tempWatchedData);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const query = "parasite";
 
   useEffect(() => {
     async function fetchMovies() {
-      const res = await fetch(
-        `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=${query}`
-      );
-      const data = await res.json();
-      setMovies(data.Search);
+      try {
+        setIsLoading(true);
+
+        const res = await fetch(
+          `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=${query}`
+        );
+
+        if (!res.ok) {
+          throw new Error("Something went wrong while fetcing movies.");
+        }
+
+        const data = await res.json();
+
+        if (data.Response === "False") {
+          throw new Error("Movie not found.");
+        }
+
+        setMovies(data.Search);
+      } catch (err) {
+        console.log(err.message);
+        setErrorMessage(err.message);
+      } finally {
+        setIsLoading(false);
+      }
     }
 
     fetchMovies();
@@ -79,7 +100,9 @@ export default function App() {
 
       <Main>
         <Box>
-          <MovieList movies={movies} />
+          {isLoading && <Loader />}
+          {errorMessage && <ErrorMessage message={errorMessage} />}
+          {!isLoading && !errorMessage && <MovieList movies={movies} />}
         </Box>
         <Box>
           <WatchedMovieSummary watchedMovies={watchedMovies} />
@@ -146,6 +169,18 @@ function Box({ children }) {
       </button>
       {isOpen && children}
     </div>
+  );
+}
+
+function Loader() {
+  return <p className="loader">Loading...</p>;
+}
+
+function ErrorMessage({ message }) {
+  return (
+    <p className="error">
+      <span>⛔{message}⛔</span>
+    </p>
   );
 }
 
