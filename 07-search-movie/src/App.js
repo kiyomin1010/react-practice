@@ -225,10 +225,6 @@ function MovieDetails({
     .map((movie) => movie.imdbID)
     .includes(selectedId);
 
-  // const watchedUserRating = watchedMovies.find(
-  //   (movie) => movie.imdbID === selectedId
-  // )?.userRating;
-
   const {
     Title: title,
     Year: year,
@@ -302,6 +298,20 @@ function MovieDetails({
     },
     [title]
   );
+
+  useEffect(() => {
+    function eventListener(e) {
+      if (e.code === "Escape") {
+        onCloseMovie();
+      }
+    }
+
+    document.addEventListener("keydown", eventListener);
+
+    return () => {
+      document.removeEventListener("keydown", eventListener);
+    };
+  }, [onCloseMovie]);
 
   return (
     <div className="details">
