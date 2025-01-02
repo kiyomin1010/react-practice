@@ -149,6 +149,15 @@ body {
   border-bottom: 1px solid var(--color-background-100);
 }
 
+.list.list-movies li {
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.list.list-movies li:hover {
+  background-color: var(--color-background-100);
+}
+
 .list img {
   width: 100%;
   grid-row: 1 / -1;
@@ -197,4 +206,33 @@ body {
   display: flex;
   align-items: center;
   gap: 0.8rem;
+}
+
+/* **************************************** */
+
+.details {
+  line-height: 1.4;
+  font-size: 1.4rem;
+}
+
+.btn-back {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.6rem;
+  height: 3.2rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: none;
+  /* background-color: var(--color-text); */
+  background-color: #fff;
+  color: var(--color-background-500);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
+  font-family: sans-serif;
+  font-size: 2.4rem;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
