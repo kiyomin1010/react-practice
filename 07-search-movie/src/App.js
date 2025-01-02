@@ -52,31 +52,28 @@ function getAverage(array) {
 }
 
 export default function App() {
+  const [query, setQuery] = useState("");
   const [movies, setMovies] = useState(tempMovieData);
   const [watchedMovies, setWatchedMovies] = useState(tempWatchedData);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const query = "parasite";
-
   useEffect(() => {
     async function fetchMovies() {
       try {
         setIsLoading(true);
+        setErrorMessage("");
 
         const res = await fetch(
           `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=${query}`
         );
 
-        if (!res.ok) {
+        if (!res.ok)
           throw new Error("Something went wrong while fetcing movies.");
-        }
 
         const data = await res.json();
 
-        if (data.Response === "False") {
-          throw new Error("Movie not found.");
-        }
+        if (data.Response === "False") throw new Error("Movie not found.");
 
         setMovies(data.Search);
       } catch (err) {
@@ -87,14 +84,20 @@ export default function App() {
       }
     }
 
+    if (query.length < 3) {
+      setMovies([]);
+      setErrorMessage("");
+      return;
+    }
+
     fetchMovies();
-  }, []);
+  }, [query]);
 
   return (
     <>
       <NavBar>
         <Logo />
-        <Search />
+        <Search query={query} setQuery={setQuery} />
         <NumResults movies={movies} />
       </NavBar>
 
@@ -126,9 +129,7 @@ function Logo() {
   );
 }
 
-function Search() {
-  const [query, setQuery] = useState("");
-
+function Search({ query, setQuery }) {
   return (
     <input
       className="search"
