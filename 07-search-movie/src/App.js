@@ -16,10 +16,18 @@ import WatchedMovieSummary from "./components/WatchedMovieSummary";
 export default function App() {
   const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
-  const [watchedMovies, setWatchedMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [selectedId, setSelectedId] = useState(null);
+
+  // INITIAL STATE ONLY ON INITIAL RENDER, NOT EVERY RENDER
+  const [watchedMovies, setWatchedMovies] = useState(() => {
+    const watchedMovies = JSON.parse(localStorage.getItem("watchedMovies"));
+    return watchedMovies;
+  });
+
+  // DON'T DO THIS: THIS WOULD UPDATE STATE ON EVERY RENDER
+  // const [watchedMovies, setWatchedMovies] = useState(localStorage.getItem("watchedMovies"));
 
   function selectMovie(id) {
     setSelectedId((selectedId) => (id === selectedId ? null : id));
@@ -81,6 +89,10 @@ export default function App() {
       controller.abort();
     };
   }, [query]);
+
+  useEffect(() => {
+    localStorage.setItem("watchedMovies", JSON.stringify(watchedMovies));
+  }, [watchedMovies]);
 
   return (
     <>
