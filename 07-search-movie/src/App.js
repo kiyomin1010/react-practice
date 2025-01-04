@@ -1,5 +1,7 @@
-import { useState, useEffect } from "react";
-import { useFetchMovies } from "./useFetchMovies"; // custom hooks
+import { useState } from "react";
+
+import { useFetchMovies } from "./hooks/useFetchMovies";
+import { useLocalStorage } from "./hooks/useLocalStorage";
 
 import NavBar from "./components/NavBar";
 import Logo from "./components/Logo";
@@ -20,14 +22,10 @@ export default function App() {
 
   const { movies, isLoading, errorMessage } = useFetchMovies(query);
 
-  // INITIAL STATE ONLY ON INITIAL RENDER, NOT EVERY RENDER
-  const [watchedMovies, setWatchedMovies] = useState(() => {
-    const watchedMovies = JSON.parse(localStorage.getItem("watchedMovies"));
-    return watchedMovies;
-  });
-
-  // DON'T DO THIS: THIS WOULD UPDATE STATE ON EVERY RENDER
-  // const [watchedMovies, setWatchedMovies] = useState(localStorage.getItem("watchedMovies"));
+  const [watchedMovies, setWatchedMovies] = useLocalStorage(
+    [],
+    "watchedMovies"
+  );
 
   function selectMovie(id) {
     setSelectedId((selectedId) => (id === selectedId ? null : id));
@@ -46,10 +44,6 @@ export default function App() {
       watchedMovies.filter((movie) => movie.imdbID !== id)
     );
   }
-
-  useEffect(() => {
-    localStorage.setItem("watchedMovies", JSON.stringify(watchedMovies));
-  }, [watchedMovies]);
 
   return (
     <>

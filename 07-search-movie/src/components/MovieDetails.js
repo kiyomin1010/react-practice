@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 
+import { useKey } from "../hooks/useKey";
+
 import Loader from "./Loader";
 import StarRating from "./StarRating";
 
@@ -90,19 +92,7 @@ export default function MovieDetails({
     };
   }, [title]);
 
-  useEffect(() => {
-    function eventListener(e) {
-      if (e.code === "Escape") {
-        onCloseMovie();
-      }
-    }
-
-    document.addEventListener("keydown", eventListener);
-
-    return () => {
-      document.removeEventListener("keydown", eventListener);
-    };
-  }, [onCloseMovie]);
+  useKey("Escape", onCloseMovie);
 
   return (
     <div className="details">
