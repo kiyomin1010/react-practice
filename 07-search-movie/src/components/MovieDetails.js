@@ -52,51 +52,43 @@ export default function MovieDetails({
     onCloseMovie();
   }
 
-  useEffect(
-    function () {
-      async function getMovieDetails() {
-        try {
-          setIsLoading(true);
+  useEffect(() => {
+    async function getMovieDetails() {
+      try {
+        setIsLoading(true);
 
-          const res = await fetch(
-            `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&i=${selectedId}`
-          );
+        const res = await fetch(
+          `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&i=${selectedId}`
+        );
 
-          if (!res.ok)
-            throw new Error(
-              "Something went wrong while fetcing movie details."
-            );
+        if (!res.ok)
+          throw new Error("Something went wrong while fetcing movie details.");
 
-          const data = await res.json();
+        const data = await res.json();
 
-          if (data.Response === "False")
-            throw new Error("Movie details not found.");
+        if (data.Response === "False")
+          throw new Error("Movie details not found.");
 
-          setMovieDetails(data);
-        } catch (err) {
-          console.log(err.message);
-        } finally {
-          setIsLoading(false);
-        }
+        setMovieDetails(data);
+      } catch (err) {
+        console.log(err.message);
+      } finally {
+        setIsLoading(false);
       }
+    }
 
-      getMovieDetails();
-    },
-    [selectedId]
-  );
+    getMovieDetails();
+  }, [selectedId]);
 
-  useEffect(
-    function () {
-      if (!title) return;
+  useEffect(() => {
+    if (!title) return;
 
-      document.title = `Movie | ${title}`;
+    document.title = `Movie | ${title}`;
 
-      return function () {
-        document.title = "SearchMovie";
-      };
-    },
-    [title]
-  );
+    return () => {
+      document.title = "SearchMovie";
+    };
+  }, [title]);
 
   useEffect(() => {
     function eventListener(e) {
