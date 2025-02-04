@@ -10,6 +10,8 @@ import Question from "./components/Question";
 const initialState = {
   questions: [],
   index: 0,
+  answer: null,
+  points: 0,
   status: "loading", // loading, error, ready, active, finished
 };
 
@@ -31,13 +33,23 @@ function reducer(state, action) {
         ...state,
         status: "active",
       };
+    case "newAnswer":
+      const question = state.questions.at(state.index);
+      return {
+        ...state,
+        answer: action.payload,
+        points:
+          action.payload === question.correctOption
+            ? state.points + question.points
+            : state.points,
+      };
     default:
       throw new Error("Action unknown");
   }
 }
 
 export default function App() {
-  const [{ questions, index, status }, dispatch] = useReducer(
+  const [{ questions, index, answer, points, status }, dispatch] = useReducer(
     reducer,
     initialState
   );
@@ -60,7 +72,13 @@ export default function App() {
         {status === "ready" && (
           <Start questionCount={questionCount} dispatch={dispatch} />
         )}
-        {status === "active" && <Question question={questions[index]} />}
+        {status === "active" && (
+          <Question
+            question={questions[index]}
+            answer={answer}
+            dispatch={dispatch}
+          />
+        )}
       </Main>
     </div>
   );

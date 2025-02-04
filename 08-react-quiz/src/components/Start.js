@@ -2,7 +2,7 @@ export default function Start({ questionCount, dispatch }) {
   return (
     <div className="start">
       <h2>Welcome to The React Quiz!</h2>
-      <h3>{questionCount} questions</h3>
+      <h3>{questionCount} Questions</h3>
       <button
         className="btn btn-ui"
         onClick={() => {
