@@ -8,6 +8,7 @@ import Start from "./components/Start";
 import Question from "./components/Question";
 import NextButton from "./components/NextButton";
 import Progress from "./components/Progress";
+import Result from "./components/Result";
 
 const initialState = {
   questions: [],
@@ -15,6 +16,7 @@ const initialState = {
   answer: null,
   points: 0,
   status: "loading", // loading, error, ready, active, finished
+  highscore: 0,
 };
 
 function reducer(state, action) {
@@ -51,16 +53,21 @@ function reducer(state, action) {
         index: state.index + 1,
         answer: null,
       };
+    case "finish":
+      return {
+        ...state,
+        status: "finished",
+        highscore:
+          state.points > state.highscore ? state.points : state.highscore,
+      };
     default:
       throw new Error("Action unknown");
   }
 }
 
 export default function App() {
-  const [{ questions, index, answer, points, status }, dispatch] = useReducer(
-    reducer,
-    initialState
-  );
+  const [{ questions, index, answer, points, status, highscore }, dispatch] =
+    useReducer(reducer, initialState);
 
   const questionCount = questions.length;
   const maxPoints = questions.reduce((prev, cur) => prev + cur.points, 0);
@@ -94,8 +101,16 @@ export default function App() {
               answer={answer}
               dispatch={dispatch}
             />
-            <NextButton answer={answer} dispatch={dispatch} />
+            <NextButton
+              index={index}
+              questionCount={questionCount}
+              answer={answer}
+              dispatch={dispatch}
+            />
           </>
+        )}
+        {status === "finished" && (
+          <Result points={points} maxPoints={maxPoints} highscore={highscore} />
         )}
       </Main>
     </div>
