@@ -77,6 +77,12 @@ h3 {
   margin-bottom: 4rem;
 }
 
+h4 {
+  font-size: 2.2rem;
+  font-weight: 600;
+  margin-bottom: 2.4rem;
+}
+
 .start {
   display: flex;
   flex-direction: column;
@@ -96,12 +102,43 @@ h3 {
   transition: 0.3s;
 }
 
+.btn[disabled]:hover {
+  cursor: not-allowed;
+}
+
 .btn:not([disabled]):hover {
   background-color: var(--color-darkest);
 }
 
 .btn-ui {
   float: right;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-bottom: 3.2rem;
+}
+
+.btn-option {
+  width: 100%;
+  text-align: left;
+}
+
+.btn-option:not([disabled]):hover {
+  transform: translateX(1.2rem);
+}
+
+.btn-option.correct {
+  background-color: var(--color-theme);
+  border: 2px solid var(--color-theme);
+  color: var(--color-light);
+}
+.btn-option.wrong {
+  background-color: var(--color-accent);
+  border: 2px solid var(--color-accent);
+  color: var(--color-darkest);
 }
 
 .loader-container {
