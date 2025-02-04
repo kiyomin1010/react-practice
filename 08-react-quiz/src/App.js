@@ -2,6 +2,9 @@ import { useEffect, useReducer } from "react";
 
 import Header from "./components/Header";
 import Main from "./components/Main";
+import Loader from "./components/Loader";
+import Error from "./components/Error";
+import Start from "./components/Start";
 
 const initialState = {
   questions: [],
@@ -27,7 +30,9 @@ function reducer(state, action) {
 }
 
 export default function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [{ questions, status }, dispatch] = useReducer(reducer, initialState);
+
+  const questionCount = questions.length;
 
   useEffect(() => {
     fetch("http://localhost:8000/questions")
@@ -40,8 +45,9 @@ export default function App() {
     <div className="app">
       <Header />
       <Main>
-        <p>1/15</p>
-        <p>Question?</p>
+        {status === "loading" && <Loader />}
+        {status === "error" && <Error />}
+        {status === "ready" && <Start questionCount={questionCount} />}
       </Main>
     </div>
   );
